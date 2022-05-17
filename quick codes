@@ -1,0 +1,2 @@
+ get current date - gs.now();
+ get current user - javascript:gs.getUserID()
