@@ -1,0 +1,41 @@
+set field read only 
+
+    if (oldValue != '' && newValue == '') {
+        g_form.setReadOnly('state', false);
+    }
+
+
+------------------------------------------------------------------
+
+check if tasks from story are completed 
+
+(function executeRule(current, previous /*null when async*/ ) {
+    var srtask = new GlideRecord('rm_scrum_task');
+    srtask.addQuery('parent', current.sys_id);
+	// check if documentation task has state other than "Complete"
+	srtask.addQuery('state', '!=', 3).addOrCondition('state', '!=', 4);
+	//srtask.addQuery('type', 3);
+    srtask.query();
+    if (srtask.hasNext()) {
+        gs.addErrorMessage("!!! Cannot complete story due to documentation scrum task invalid state !!!");
+		current.state = previous.state;
+		current.update();
+        //current.setAbortAction(true);
+    }
+})(current, previous);
+
+
+
+var rec = new GlideRecord('sc_task');
+rec.addQuery('request_item', current.sys_id);
+rec.addQuery('active', true);
+rec.query();
+if(rec.hasNext()){
+answer = false;
+}
+
+
+----------------------------------------------------------------------------
+
+
+
