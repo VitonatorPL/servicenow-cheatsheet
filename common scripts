@@ -38,4 +38,23 @@ answer = false;
 ----------------------------------------------------------------------------
 
 
-
+//getting recor Short |Descritpion and Record Number
+		var shortDesc ='';
+		var recNumber = '';
+		var workNotes = '';
+		var recTable = new GlideRecord(result.className);
+		recTable.addQuery('sys_id', result.recordSysId);
+		recTable.query();
+		while(recTable.next()){
+			shortDesc = recTable.short_description;
+			recNumber = recTable.number;
+		}
+//getting record Wornotes and Comments
+		
+		var commentsAndWorkNotes = new GlideRecord('sys_journal_field');
+		commentsAndWorkNotes.addQuery('element_id',result.recordSysId );
+		commentsAndWorkNotes.orderByDesc('sys_created_on');
+		commentsAndWorkNotes.setLimit(1);
+		commentsAndWorkNotes.query();
+		while(commentsAndWorkNotes.next()){
+			workNotes = commentsAndWorkNotes.value;
