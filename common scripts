@@ -58,3 +58,14 @@ answer = false;
 		commentsAndWorkNotes.query();
 		while(commentsAndWorkNotes.next()){
 			workNotes = commentsAndWorkNotes.value;
+
+
+
+ACL - exclude user from write rights
+
+if (gs.getUserName() != "xxxxxxx") {
+ answer = true;
+}
+else{
+ answer = false;
+}
