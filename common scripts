@@ -69,3 +69,18 @@ if (gs.getUserName() != "xxxxxxx") {
 else{
  answer = false;
 }
+
+-------------------------------------------------------------------------------------------
+
+background script for duplicate values in list
+
+var gr = new GlideAggregate('alm_hardware');
+gr.addAggregate('COUNT','serial_number');
+gr.groupBy('serial_number');
+gr.addHaving('COUNT','>',1);
+gr.query();
+var duplicates = [];
+while(gr.next()){
+	duplicates.push(gr.getValue('serial_number'));
+}
+gs.info(duplicates.toString());
